@@ -1,0 +1,46 @@
+﻿<div>
+    <div class="form-row">
+    <div class="col-md-6 mb-3">
+      <label for="validationCustom03" class="fs-3" style="color:#FF0000;">주의 사항</label>
+      <span class="mt-0" style="white-space: pre-line">
+        1. 구매신청서에 기재되는 모든정보는 세관신고서에 그대로 반영되므로 허위로 작성하실 수 없습니다.
+        2. 직구닷컴는 나눔배송/분할배송 등 법에 반하는 행위에 응하지 않습니다.
+        3. 구매신청서 내의 기재된 정보 및 부가기능은 견적완료 부터는 수정이 되지 않습니다.수취인 정보의 수정을 원하실 경우, 직구닷컴에 요청 하세요.
+        4. 구매대행 견적가(상품가격 + Shipping + Tax + 구매수수료 + 통관비)를 입금해주시면 오더가 진행됩니다.
+        오더완료 후, 제품이 센터에 입고되면 무게를 측정후, 2차로 배송비를 청구합니다.
+        이때,배송비를 입금하지 않으실 경우 센터에서 출고되지 않으니 신속한 입금을 해주셔야 합니다.
+        5. 해외 오더 진행시, 품절,오류입고로 인한 전체 취소는 불가능하며, 개별 건에 대하여 환불 또는 예치금충전은 가능합니다.
+        6. 액체/유리/중고 제품은 파손시 보상접수 조차도 되지 않으니 유의해주시기 바랍니다.
+        7. 교환 및 반품관련 모든사항은 해당 쇼핑몰의 규정에 따르니 미리 확인하여 주시기 바랍니다.
+        8. 전자제품류 배송시 파손면책에 동의 하며 이경우 파손의 보상이 불가 함. 동의 하지 않을 경우는 대형화물로 이관 되어 배송하여야 보상 받을수 있습니다.
+      </span>
+    </div>
+  </div> 
+  <div class="form-group">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" @bind="@isAgreed" id="invalidCheck" required>
+      <label class="form-check-label" for="invalidCheck">
+        Agree to terms and conditions
+      </label>
+      <div class="invalid-feedback">
+        You must agree before submitting.
+      </div>
+    </div>
+  </div>
+  <button class="btn btn-primary" onclick="@AgreementSubmitted">Submit</button>
+</div>
+
+@code{
+    [Parameter]
+    public bool isAgreed { get; set; }
+    [Parameter]
+    public EventCallback<bool> isAgreedChanged { get; set; }
+
+    private async Task AgreementSubmitted()
+    {
+        if (isAgreed)
+        {
+            await isAgreedChanged.InvokeAsync(isAgreed);   
+        }
+    }
+}

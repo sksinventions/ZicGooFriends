@@ -1,0 +1,17 @@
+﻿@page "/purchase/agreement"
+@inject NavigationManager navManager;
+
+<Agreement isAgreed="_isAgreed" isAgreedChanged="@OnAgreementSubmit"/>
+
+@code {
+    private bool _isAgreed = false;
+
+    private void OnAgreementSubmit(bool agreed)
+    {
+        if (agreed)
+        {
+            navManager.NavigateTo("/purchase/proxy");
+        }
+    }
+}
+

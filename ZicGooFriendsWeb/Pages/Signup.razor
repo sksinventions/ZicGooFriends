@@ -1,0 +1,108 @@
+﻿@page "/signup"
+
+@using DataAccessLibrary.DataAccess
+@using System.Net.Http;
+@using Newtonsoft.Json
+@using System.Text
+@inject ISqlDataAccess _sqlData
+@inject IConfiguration _config
+@inject IUserDao _db;
+@inject NavigationManager navManager;
+
+<h3>Signin</h3>
+
+@if (false)//has jwt)
+{
+    <p><em>already registered</em></p>
+}
+else
+{
+    <EditForm Model="@user" OnValidSubmit="@RegisterUser">
+        <div class="col-12 row m-2">
+            <input class="form-control col-12" @bind="user.AccountID" placeholder="Enter account ID.."/>
+        </div>
+        <div class="col-12 row m-2">
+            <input class="form-control col-12" @bind="user.NickName" placeholder="Enter NickName.."/>
+        </div>
+        <div class="col-12 row m-2">
+            <input class="form-control col-12" @bind="user.KorName" placeholder="Enter KorName.."/>
+        </div>
+        <div class="col-12 row m-2">
+            <input class="form-control col-12" @bind="user.EngName" placeholder="Enter EngName.."/>
+        </div>
+        <div class="col-12 row m-2">
+            <input class="form-control col-12" @bind="user.Password" placeholder="Enter Password.."/>
+        </div>
+        <div class="col-12 row m-2">
+            <input class="form-control col-12" @bind="user.MobilePhoneNum" placeholder="Enter MobilePhoneNum.."/>
+        </div>
+        <div class="col-12 row m-2">
+            <input class="form-control col-12" @bind="user.TelephoneNum" placeholder="Enter TelephoneNum.."/>
+        </div>
+        <div class="col-12 row m-2">
+            <input class="form-control col-12" @bind="user.PCCC" placeholder="Enter PCCC.."/>
+        </div>
+        <div class="col-12 row m-2">
+            <input class="form-control col-12" @bind="user.Email" placeholder="Enter Email.."/>
+        </div>
+        <div class="col-12 row m-2">
+            <input class="form-control col-12" @bind="user.PostOfficeBox" placeholder="Enter PostOfficeBox.."/>
+        </div>
+        <div class="col-12 row m-2">
+            <input class="form-control col-12" @bind="user.ZIPcode" placeholder="Enter ZIPcode.."/>
+        </div>
+        <div class="col-12 row m-2">
+            <input class="form-control col-12" @bind="user.MainAddress" placeholder="Enter MainAddress.."/>
+        </div>
+        <div class="col-12 row m-2">
+            <input class="form-control col-12" @bind="user.SubAddress" placeholder="Enter SubAddress.."/>
+        </div>
+        <div class="col-12 row m-2">
+            <input type="checkbox" @bind="user.IsAutoPayMode"/>
+        </div>
+        <div class="col-12 row m-2">
+            <input class="form-control col-12" @bind="user.AutoPayLimit" placeholder="Enter AutoPayLimit.."/>
+        </div>
+        <button type="submit">Submit</button>
+    </EditForm>
+}
+
+@code {
+    private UserModel user = new UserModel();
+    private bool firstRender = true;
+
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    return base.OnInitializedAsync();
+    //}
+
+    //protected override async Task OnAfterRenderAsync(bool firstRender)
+    //{
+    //    if(firstRender)
+    //    {
+    //        //if has jwt
+    //        //navManager.NavigateTo("/");
+    //    }
+    //    //get jwt
+    //    //if success
+    //    if (true)
+    //    {
+    //        //alert message
+    //        //StateHasChanged();
+    //    }
+    //}
+
+    private async Task<bool> RegisterUser()
+    {
+        using (HttpClient httpClient = new HttpClient())
+        {
+            string jsonStr = JsonConvert.SerializeObject(user);
+            StringContent content = new StringContent(jsonStr, UnicodeEncoding.UTF8,"application/json");
+            string uri = @"https://localhost:7263/users";
+            HttpResponseMessage response = await httpClient.PostAsync(uri,content);
+        }
+        
+        navManager.NavigateTo("/");
+        return true;
+    }
+}

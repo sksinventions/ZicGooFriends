@@ -1,14 +1,16 @@
 ﻿namespace ZicGooFriendsWeb.Models
 {
-    public class User
+    public class AuthUser
     {
+        public int uid;
+
         public string AccountID { get; set; } = string.Empty;
 
         public string NickName { get; set; } = string.Empty;
         public string KorName { get; set; } = string.Empty;
         public string EngName { get; set; } = string.Empty;
 
-        public string password { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
 
         public string MobilePhoneNum { get; set; } = string.Empty;
         public string TelephoneNum { get; set; } = string.Empty;
@@ -25,5 +27,8 @@
 
         public DateTime RegisterDate { get; set; }
         public DateTime LastLogin { get; set; }
+
+        public byte[] PasswordHash { get; set; }
+        public byte[] PasswordSalt { get; set; }
     }
 }
